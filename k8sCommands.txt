@@ -1,0 +1,93 @@
+//for all nodes
+sudo cat <<EOF > /etc/yum.repos.d/kubernetes.repo
+[kubernetes]
+name=Kubernetes
+baseurl=https://packages.cloud.google.com/yum/repos/kubernetes-el7-x86_64
+enabled=1
+gpgcheck=1
+repo_gpgcheck=1
+gpgkey=https://packages.cloud.google.com/yum/doc/yum-key.gpg https://packages.cloud.google.com/yum/doc/rpm-package-key.gpg
+EOF
+
+sudo yum install -y kubelet kubeadm kubectl
+
+sudo systemctl enable kubelet
+
+sudo systemctl start kubelet
+
+//for master-node
+sudo hostnamectl set-hostname master-node
+
+//for worker1
+sudo hostnamectl set-hostname worker-node1
+
+//for worker2
+sudo hostnamectl set-hostname worker-node2
+
+//for all nodes
+sudo cat <<EOF>> /etc/hosts
+master-node-ip master.cido.com master-node
+worker1-node-ip node1.cido.com worker-node1
+worker2-node-ip node2.cido.com worker-node2
+EOF
+
+
+//for master-node
+sudo firewall-cmd --permanent --add-port=6443/tcp
+
+sudo firewall-cmd --permanent --add-port=2379-2380/tcp
+
+sudo firewall-cmd --permanent --add-port=10250/tcp
+
+sudo firewall-cmd --permanent --add-port=10251/tcp
+
+sudo firewall-cmd --permanent --add-port=10252/tcp
+
+sudo firewall-cmd --permanent --add-port=10255/tcp
+
+sudo firewall-cmd --reload
+
+//for worker nodes
+sudo firewall-cmd --permanent --add-port=10251/tcp
+
+sudo firewall-cmd --permanent --add-port=10255/tcp
+
+sudo firewall-cmd --reload
+
+//for all nodes
+sudo cat <<EOF > /etc/sysctl.d/k8s.conf
+net.bridge.bridge-nf-call-ip6tables = 1
+net.bridge.bridge-nf-call-iptables = 1
+EOF
+
+sudo sysctl --system
+
+sudo sed -i '/swap/d' /etc/fstab
+
+sudo swapoff -a
+
+//for master-node
+sudo kubeadm init --pod-network-cidr=10.244.0.0/16
+
+sudo mkdir -p $HOME/.kube
+
+sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
+
+sudo chown $(id -u):$(id -g) $HOME/.kube/config
+
+sudo kubectl apply -f https://raw.githubusercontent.com/coreos/flannel/master/Documentation/kube-flannel.yml
+
+//for worker-nodes
+sudo kubeadm join master-node-ip:6443 --token xxx.xxx--discovery-token-ca-cert-hash sha256:xxx
+
+//for master-node
+kubectl label nodes worker-node1 kubernetes.io/role=worker
+
+kubectl label nodes worker-node2 kubernetes.io/role=worker
+
+kubectl apply -f https://k8s.io/examples/service/access/hello-application.yaml
+
+kubectl get nodes
+
+kubectl get pods
+
