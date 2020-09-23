@@ -67,7 +67,7 @@ sudo sed -i '/swap/d' /etc/fstab
 sudo swapoff -a
 
 //for master-node
-sudo kubeadm init --pod-network-cidr=10.244.0.0/16
+sudo kubeadm init --apiserver-advertise-address=master-ip --pod-network-cidr=10.244.0.0/16
 
 sudo mkdir -p $HOME/.kube
 
