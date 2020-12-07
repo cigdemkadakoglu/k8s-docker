@@ -1,0 +1,25 @@
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: fluentd
+  namespace: kube-system
+spec:
+  selector:
+    matchLabels:
+      name: fluentd
+  template:
+    metadata:
+      labels:
+        name: fluentd
+    spec:
+      nodeSelector:
+        app: node-collector-prod
+      containers:
+      - name: fluentd
+        image: fluentd
+        resources:
+          limits:
+            memory: 250Mi
+          requests:
+            memory: 200Mi
+            cpu: 1
