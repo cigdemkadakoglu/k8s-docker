@@ -1,3 +1,6 @@
+kubectl create -f daemonsets.yaml
+
+
 kubectl get ds -n kube-system
 
 
