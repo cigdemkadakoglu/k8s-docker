@@ -1,0 +1,11 @@
+Docker-compose komutları
+docker-compose build : docker-compose yamlı içerisinde bulunan imajın build edilmesini sağlar.
+docker-compose images : docker-compose ile oluşturulan imaj listesini gösterir.
+docker-compose stop : docker-compose ile oluşturulan servislerin durdurulmasını sağlar.
+docker-compose run : docker-compose ile servislerin tek tek ya da birden fazla oluşturulmasını sağlar.
+docker-compose up : docker-compose yamlı içerisinde bulunan bütün servislerin ayağa kaldırılmasını ve konfigürasyonların oluşturulmasını sağlar. 
+-d opsiyonu ile arkaplanda çalıştırılması sağlanır. (docker-compose up -d)
+docker-compose ps : docker-compose olarak ayağa kaldırılan servisleri listeler.
+docker-compose down : docker-compose ile oluşturulan servislerin kaldırılmasını sağlar.
+docker-compose version : docker-compose versiyonunu görmek için kullanılır.
+
