@@ -1,0 +1,31 @@
+Docker komutları
+•	Image oluşturmak için kullanılan komut:
+docker build -t image_name:tag_name .
+•	Network oluşturmak için kullanılan komut:
+docker network create network_name 
+•	Networkleri listelemek için kullanılan komut:
+docker network ls
+•	Volume oluşturmak için kullanılan komut:
+docker volume create volume_name
+•	Volumeleri listelemek için kullanılan komut:
+docker volume ls
+•	Container loglarını görmek için kullanılan komut:
+docker logs container_id
+•	Containerları listelemek için kullanılan komut:
+docker ps
+•	Imajları listelemek için kullanılan komut:
+docker images
+•	Imajları silmek için kullanılan komut:
+docker rmi image_id
+•	Containerları durdurmak için kullanılan komut:
+docker stop container_id
+•	Containerları silmek için kullanılan komut:
+docker rm container_id 
+•	Docker Hub’a login olmak için kullanılan komut:
+docker login
+•	Docker Hub’tan logout olmak için kullanılan komut:
+docker logout
+•	Docker versiyonunu görmek için kullanılan komut:
+docker version
+•	Container çalıştırmak için kullanılan komut:
+docker container run --name container_name docker_image
